@@ -11,3 +11,4 @@ To do:
 1. Add imperial option (lbs and oz)
 2. Alternate calulation for puppies (age + weight or expected adult weight)
 3. Finish CSS
+4. Add total amount
