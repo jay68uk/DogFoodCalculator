@@ -1,0 +1,29 @@
+﻿@using DogFoodCalculatorApp.Services
+@using System.Reflection.Metadata
+<div class="row">
+    <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Type</th>
+            <th>%</th>
+            <th>Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in FoodList)
+            {
+                <tr>
+                    <td>@item.Description</td>
+                    <td>@item.Percentage</td>
+                    <td>@item.DisplayAmount</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    [Parameter]
+    public IList<IFoodItem> FoodList { get; set; }
+
+}

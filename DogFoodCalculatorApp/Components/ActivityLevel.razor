@@ -1,0 +1,37 @@
+﻿<div class="row">
+    <div class="btn-group-sm">
+        <button class="btn btn-calc btn-calc-1 @_activeButton[0]" @onclick="() => OnActivityClick(3)">Underweight/Very Active</button>
+        <button class="btn btn-calc btn-calc-2 @_activeButton[1]" @onclick="() => OnActivityClick(2)">Maintain/Active</button>
+        <button class="btn btn-calc btn-calc-3 @_activeButton[2]" @onclick="() => OnActivityClick(1)">Overweight/Inactive</button>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public EventCallback<int> OnActivityChange { get; set; }
+
+    private string[] _activeButton;
+
+    protected override void OnInitialized()
+    {
+        _activeButton = SetActiveButton(2);
+    }
+
+    private async Task OnActivityClick(int level)
+    {
+        _activeButton=SetActiveButton(level);
+        await OnActivityChange.InvokeAsync(level);
+    }
+
+    private string[] SetActiveButton(int level)
+    {
+        return level switch
+        {
+            1 => new string[] {string.Empty, string.Empty, "btn-calc-active"},
+            3 => new string[] {"btn-calc-active", string.Empty, string.Empty},
+            _ => new string[] {string.Empty, "btn-calc-active", string.Empty}
+            };
+    }
+
+}

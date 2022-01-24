@@ -1,0 +1,29 @@
+﻿<div>
+    <EditForm Model="@Weight" OnValidSubmit="OnValidSubmit">
+    <div class="form-row">
+        <label class="col-form-label-sm">Weight</label>
+        <InputNumber @bind-Value="Weight" class="form-control-sm"/>
+        <button class="btn btn-primary" type="submit">Calculate</button>
+    </div>
+    
+    </EditForm>
+</div>
+
+@code {
+
+    [Parameter]
+    public EventCallback<double> WeightCallback { get; set; }
+
+    private double Weight { get; set; }
+
+    private void OnCalculate()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void OnValidSubmit(EditContext formContext)
+    {
+        WeightCallback.InvokeAsync(Weight);
+    }
+
+}

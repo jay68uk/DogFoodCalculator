@@ -1,0 +1,58 @@
+﻿@page "/"
+@using DogFoodCalculatorApp.Services
+
+<h1>Raw Dog Food Calculator</h1>
+
+<p>This calculator will give you a guide on the quantity and break down of amount of daily raw food for your dog, based on weight and activity level.</p>
+
+<p>Please always check with your vet on the suitability of proteins and quantities for your dog!</p>
+
+<div>
+    <div>
+        <ActivityLevel OnActivityChange="ActivityChanged"></ActivityLevel>
+    </div>
+    <div>
+        <WeightInput WeightCallback="WeightChanged"></WeightInput>
+    </div>
+    @if (_results is not null)
+    {
+        <div>
+            <CalculationResult FoodList="@_results.ToList()"></CalculationResult>
+        </div>
+    }
+</div>
+
+@code {
+    [Inject]
+    private IFoodService FoodService { get; set; }
+
+    private int _activityLevel = 2;
+    private double _weight = 0.00;
+
+    private IList<IFoodItem> _results;
+
+
+
+    private async Task ActivityChanged(int level)
+    {
+        _activityLevel = level;
+        if (_weight>0)
+            await CalculateResults();
+    }
+
+    private async Task WeightChanged(double weight)
+    {
+        _weight = weight;
+        await CalculateResults();
+    }
+
+    private async Task CalculateResults()
+    {
+        _results = await Task.Run( () =>  FoodService.CalculateFoodAmount(_activityLevel, _weight));
+
+        if (_results is not null)
+        {
+            var x = _results.ToList();
+        }
+    }
+}
